@@ -19,3 +19,6 @@ build-harness
 *.orig
 *.draft
 *~
+
+# Plan files
+*plan*
