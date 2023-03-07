@@ -1,5 +1,6 @@
 #!/bin/bash
 echo "EC2"
+cd ./instance-ec2
 
 # Create key
 ssh-keygen -f aws-key-tf
