@@ -1,33 +1,33 @@
 # VPC
 resource "aws_vpc" "my_vpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.cidr_vpc
 
   tags = {
-    Name : "vpc-terraform"
+    Name : "vpc-${var.environment}"
   }
 }
 
 # public subnet
 resource "aws_subnet" "public_subnet" {
   vpc_id     = aws_vpc.my_vpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = var.cidr_subnet
 
-  availability_zone = "us-east-2a"
+  availability_zone = "${var.zone}a"
 
   tags = {
-    Name = "subnet-public-terraform"
+    Name = "subnet-public-${var.environment}"
   }
 }
 
 # private subnet
 resource "aws_subnet" "private_subnet" {
   vpc_id     = aws_vpc.my_vpc.id
-  cidr_block = "10.0.2.0/24"
+  cidr_block = var.cidr_private_subnet
 
-  availability_zone = "us-east-2b"
+  availability_zone = "${var.zone}b"
 
   tags = {
-    Name = "subnet-private-terraform"
+    Name = "subnet-private-${var.environment}"
   }
 }
 
@@ -36,7 +36,7 @@ resource "aws_internet_gateway" "my_igw" {
   vpc_id = aws_vpc.my_vpc.id
 
   tags = {
-    Name = "internet-getway-terraform"
+    Name = "internet-getway-${var.environment}"
   }
 }
 
@@ -65,7 +65,7 @@ resource "aws_network_acl" "my_acl" {
 }
 
 resource "aws_security_group" "my_sg" {
-  name_prefix = "security-group-terraform"
+  name_prefix = "security-group-${var.environment}"
   vpc_id      = aws_vpc.my_vpc.id
 
   ingress {
@@ -76,9 +76,9 @@ resource "aws_security_group" "my_sg" {
   }
 
   egress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    from_port   = var.port_sg
+    to_port     = var.port_sg
+    protocol    = var.protocol_sg
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
@@ -93,7 +93,7 @@ resource "aws_route_table" "my_rt" {
   }
 
   tags = {
-    Name = "route-table-terraform"
+    Name = "route-table-${var.environment}"
   }
 }
 
