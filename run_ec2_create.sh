@@ -3,7 +3,12 @@ echo "EC2"
 cd ./instance-ec2
 
 # Create key
-ssh-keygen -f aws-key-tf
+if test -f "aws-key-tf"; then
+    echo "The file exists."
+else
+    ssh-keygen -f 
+fi
+
 
 terraform init 
 
