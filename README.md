@@ -98,3 +98,5 @@ Translation: Remember to execute the run_destroy_all.sh script after use to dest
 ```bash
 sh ./run_destroy_all.sh
 ```
+
+![alt text](./imagens/01.PNG)
