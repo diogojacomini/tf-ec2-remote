@@ -13,6 +13,21 @@ resource "aws_instance" "my_instance" {
   vpc_security_group_ids      = [data.terraform_remote_state.vpc.outputs.security_group_id]
   associate_public_ip_address = true
 
+  connection {
+    type        = "ssh"
+    user        = "ubuntu"
+    private_key = file("./aws-key-tf")
+    host        = self.public_ip
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt-get update",
+      "sudo apt install python3-pip -y",
+      "pip install pandas"
+    ]
+  }
+
   tags = {
     Name = "instance-terraform"
   }
